@@ -1,21 +1,72 @@
 import React from 'react';
-import { Typography, Paper, Grid, Box, CircularProgress, Card, IconButton, Divider } from '@mui/material';
+import { 
+  Typography, 
+  Paper, 
+  Grid, 
+  Box, 
+  Card, 
+  IconButton, 
+  Chip, 
+  Avatar, 
+  List, 
+  ListItem, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableRow 
+} from '@mui/material';
 import { motion } from 'framer-motion';
 import PersonIcon from '@mui/icons-material/Person';
 import CallIcon from '@mui/icons-material/Call';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer, 
+  BarChart, 
+  Bar, 
+  PieChart, 
+  Pie, 
+  Cell 
+} from 'recharts';
 
-const chartData = [
-  { name: 'Jan', matches: 65 },
-  { name: 'Feb', matches: 59 },
-  { name: 'Mar', matches: 80 },
-  { name: 'Apr', matches: 81 },
-  { name: 'May', matches: 56 },
-  { name: 'Jun', matches: 95 },
+const activityData = [
+  { month: 'Jan', matches: 65, calls: 45, success: 38 },
+  { month: 'Feb', matches: 59, calls: 38, success: 30 },
+  { month: 'Mar', matches: 80, calls: 60, success: 52 },
+  { month: 'Apr', matches: 81, calls: 65, success: 58 },
+  { month: 'May', matches: 56, calls: 48, success: 40 },
+  { month: 'Jun', matches: 95, calls: 75, success: 68 },
 ];
+
+const recentMatches = [
+  { id: 1, name: 'John & Priya', date: '2 hours ago', status: 'Call Scheduled', avatar1: 'https://randomuser.me/api/portraits/men/1.jpg', avatar2: 'https://randomuser.me/api/portraits/women/1.jpg', compatibility: 95 },
+  { id: 2, name: 'Raj & Meera', date: '5 hours ago', status: 'Profile Shared', avatar1: 'https://randomuser.me/api/portraits/men/2.jpg', avatar2: 'https://randomuser.me/api/portraits/women/2.jpg', compatibility: 88 },
+  { id: 3, name: 'David & Sarah', date: '1 day ago', status: 'Meeting Fixed', avatar1: 'https://randomuser.me/api/portraits/men/3.jpg', avatar2: 'https://randomuser.me/api/portraits/women/3.jpg', compatibility: 92 },
+];
+
+const performanceMetrics = [
+  { metric: 'Profile Views', value: 2456, growth: '+15%' },
+  { metric: 'Successful Matches', value: 189, growth: '+8%' },
+  { metric: 'Active Conversations', value: 67, growth: '+12%' },
+  { metric: 'Premium Conversions', value: 45, growth: '+20%' },
+];
+
+const matchDistribution = [
+  { name: 'Age 25-30', value: 35 },
+  { name: 'Age 31-35', value: 40 },
+  { name: 'Age 36-40', value: 15 },
+  { name: 'Age 40+', value: 10 },
+];
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const StatCard = ({ title, value, icon, color, percentage }) => (
   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -56,16 +107,16 @@ const RecentActivity = () => (
     border: '1px solid rgba(255, 255, 255, 0.1)'
   }}>
     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-      <Typography variant="h6" color="white">Recent Activity</Typography>
+      <Typography variant="h6" color="white">Activity Overview</Typography>
       <IconButton sx={{ color: 'white' }}>
         <MoreVertIcon />
       </IconButton>
     </Box>
     <Box sx={{ height: '300px' }}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
+        <LineChart data={activityData}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-          <XAxis dataKey="name" stroke="#fff" />
+          <XAxis dataKey="month" stroke="#fff" />
           <YAxis stroke="#fff" />
           <Tooltip 
             contentStyle={{ 
@@ -74,15 +125,142 @@ const RecentActivity = () => (
               color: '#fff' 
             }} 
           />
-          <Line 
-            type="monotone" 
-            dataKey="matches" 
-            stroke="#8884d8" 
-            strokeWidth={2}
-            dot={{ fill: '#8884d8' }}
-          />
+          <Line type="monotone" dataKey="matches" stroke="#8884d8" strokeWidth={2} />
+          <Line type="monotone" dataKey="calls" stroke="#82ca9d" strokeWidth={2} />
+          <Line type="monotone" dataKey="success" stroke="#ffc658" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
+    </Box>
+  </Card>
+);
+
+const RecentMatchesList = () => (
+  <Card sx={{ 
+    p: 3, 
+    background: 'rgba(30, 30, 30, 0.6)',
+    backdropFilter: 'blur(10px)',
+    borderRadius: '15px',
+    border: '1px solid rgba(255,255,255,0.1)'
+  }}>
+    <Typography variant="h6" color="white" gutterBottom>
+      Recent Matches
+    </Typography>
+    <List>
+      {recentMatches.map((match) => (
+        <ListItem key={match.id} sx={{ 
+          mb: 2, 
+          background: 'rgba(255,255,255,0.05)',
+          borderRadius: '10px',
+          '&:hover': { background: 'rgba(255,255,255,0.1)' }
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Avatar src={match.avatar1} sx={{ mr: 1 }} />
+              <Typography color="white" variant="body2">❤</Typography>
+              <Avatar src={match.avatar2} sx={{ ml: 1 }} />
+            </Box>
+            <Box sx={{ ml: 2, flex: 1 }}>
+              <Typography color="white" variant="subtitle2">{match.name}</Typography>
+              <Typography color="gray" variant="caption">{match.date}</Typography>
+            </Box>
+            <Chip 
+              label={`${match.compatibility}% Match`}
+              size="small"
+              sx={{ 
+                background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)',
+                color: 'white'
+              }}
+            />
+          </Box>
+        </ListItem>
+      ))}
+    </List>
+  </Card>
+);
+
+const PerformanceMetricsCard = () => (
+  <Card sx={{ 
+    p: 3, 
+    background: 'rgba(30, 30, 30, 0.6)',
+    backdropFilter: 'blur(10px)',
+    borderRadius: '15px',
+    border: '1px solid rgba(255,255,255,0.1)'
+  }}>
+    <Typography variant="h6" color="white" gutterBottom>
+      Performance Metrics
+    </Typography>
+    <TableContainer>
+      <Table>
+        <TableBody>
+          {performanceMetrics.map((metric) => (
+            <TableRow key={metric.metric} sx={{ '&:last-child td': { border: 0 } }}>
+              <TableCell sx={{ color: 'white', border: 'none' }}>
+                {metric.metric}
+              </TableCell>
+              <TableCell align="right" sx={{ color: 'white', border: 'none' }}>
+                {metric.value}
+              </TableCell>
+              <TableCell align="right" sx={{ color: '#4caf50', border: 'none' }}>
+                {metric.growth}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </Card>
+);
+
+const MatchDistributionChart = () => (
+  <Card sx={{ 
+    p: 3, 
+    background: 'rgba(30, 30, 30, 0.6)',
+    backdropFilter: 'blur(10px)',
+    borderRadius: '15px',
+    border: '1px solid rgba(255,255,255,0.1)',
+    height: '100%'
+  }}>
+    <Typography variant="h6" color="white" gutterBottom>
+      Match Distribution
+    </Typography>
+    <Box sx={{ height: 300 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={matchDistribution}
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={80}
+            fill="#8884d8"
+            paddingAngle={5}
+            dataKey="value"
+          >
+            {matchDistribution.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </Box>
+    <Box sx={{ mt: 2 }}>
+      {matchDistribution.map((entry, index) => (
+        <Box key={entry.name} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+          <Box
+            sx={{
+              width: 12,
+              height: 12,
+              borderRadius: '50%',
+              backgroundColor: COLORS[index % COLORS.length],
+              mr: 1
+            }}
+          />
+          <Typography color="white" variant="caption">
+            {entry.name}: {entry.value}%
+          </Typography>
+        </Box>
+      ))}
     </Box>
   </Card>
 );
@@ -146,19 +324,15 @@ const Dashboard = () => (
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Card sx={{ 
-          p: 3, 
-          background: 'rgba(30, 30, 30, 0.6)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '15px',
-          border: '1px solid rgba(255,255,255,0.1)'
-        }}>
-          <Typography variant="h6" color="white" gutterBottom>
-            Recent Matches
-          </Typography>
-          <Divider sx={{ bgcolor: 'rgba(255,255,255,0.1)', my: 2 }} />
-          {/* Add recent matches list here */}
-        </Card>
+        <RecentMatchesList />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <PerformanceMetricsCard />
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <MatchDistributionChart />
       </Grid>
 
       <Grid item xs={12} md={6}>
@@ -167,13 +341,23 @@ const Dashboard = () => (
           background: 'rgba(30, 30, 30, 0.6)',
           backdropFilter: 'blur(10px)',
           borderRadius: '15px',
-          border: '1px solid rgba(255,255,255,0.1)'
+          border: '1px solid rgba(255,255,255,0.1)',
+          height: '100%'
         }}>
           <Typography variant="h6" color="white" gutterBottom>
-            Performance Metrics
+            Monthly Success Rate
           </Typography>
-          <Divider sx={{ bgcolor: 'rgba(255,255,255,0.1)', my: 2 }} />
-          {/* Add performance metrics here */}
+          <Box sx={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={activityData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                <XAxis dataKey="month" stroke="#fff" />
+                <YAxis stroke="#fff" />
+                <Tooltip />
+                <Bar dataKey="success" fill="#4caf50" />
+              </BarChart>
+            </ResponsiveContainer>
+          </Box>
         </Card>
       </Grid>
     </Grid>
