@@ -2,12 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import { CssBaseline, Container, Typography, AppBar, Toolbar, Button, Box, IconButton, Avatar, Tooltip } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+// import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
-import CallIcon from '@mui/icons-material/Call';
+// import CallIcon from '@mui/icons-material/Call';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
-import Dashboard from './components/Dashboard';
+// import Dashboard from './components/Dashboard';
 import ProfileView from './components/ProfileView';
 import CallManagement from './components/CallManagement';
 

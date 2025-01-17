@@ -158,33 +158,30 @@ const CallManagement = ({ profileData }) => {
         setCallDuration(prev => prev + 1);
         setCallQuality(prev => Math.max(30, Math.min(100, prev + Math.random() * 10 - 5)));
       }, 1000);
+      // Start recording without adding log (will be added in handleStartCall)
       setIsRecording(true);
-      addStatusLog('Recording started automatically');
     } else {
+      // Stop recording without adding log (will be added in handleEndCall)
       setIsRecording(false);
-      if (callDuration > 0) {
-        addStatusLog('Recording stopped automatically');
-      }
     }
     return () => clearInterval(timer);
-  }, [isCallActive, addStatusLog, callDuration]);
+  }, [isCallActive]);
 
   const handleStartCall = () => {
     setIsCallActive(true);
-    addStatusLog('Call started');
+    addStatusLog('Call started with automatic recording');
   };
 
   const handleEndCall = () => {
     setIsCallActive(false);
     setCallDuration(0);
-    addStatusLog('Call ended');
+    addStatusLog('Call ended and recording stopped');
   };
 
   const handleManualRecording = () => {
     setIsRecording(!isRecording);
     addStatusLog(isRecording ? 'Recording stopped manually' : 'Recording started manually');
   };
-
   const formatDuration = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
