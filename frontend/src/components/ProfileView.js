@@ -1,4 +1,4 @@
-  import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   Grid, Typography, Avatar, Box, Chip, IconButton, FormControl, 
   Select, MenuItem, TextField, InputLabel, Table, TableBody, 
@@ -76,7 +76,7 @@ const dummyProfiles = [
 const FilterSection = ({ filters, setFilters }) => (
   <Box sx={{ mb: 4, p: 2, backgroundColor: '#f5f5f5', borderRadius: '10px' }}>
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={2}>
         <FormControl fullWidth>
           <InputLabel>Gender</InputLabel>
           <Select
@@ -90,7 +90,7 @@ const FilterSection = ({ filters, setFilters }) => (
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={2}>
         <FormControl fullWidth>
           <InputLabel>Age Range</InputLabel>
           <Select
@@ -106,7 +106,7 @@ const FilterSection = ({ filters, setFilters }) => (
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={2}>
         <FormControl fullWidth>
           <InputLabel>Caste</InputLabel>
           <Select
@@ -121,7 +121,23 @@ const FilterSection = ({ filters, setFilters }) => (
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={2}>
+        <FormControl fullWidth>
+          <InputLabel>Sub Caste</InputLabel>
+          <Select
+            value={filters.subCaste}
+            onChange={(e) => setFilters({...filters, subCaste: e.target.value})}
+            label="Sub Caste"
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="Iyer">Iyer</MenuItem>
+            <MenuItem value="Iyengar">Iyengar</MenuItem>
+            <MenuItem value="Rajput">Rajput</MenuItem>
+            <MenuItem value="Agarwal">Agarwal</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={12} sm={4}>
         <TextField
           fullWidth
           label="Search by name"
@@ -138,6 +154,7 @@ const ProfileView = () => {
     gender: 'all',
     ageRange: 'all',
     caste: 'all',
+    subCaste: 'all',
     searchQuery: ''
   });
   const [selectedProfile, setSelectedProfile] = useState(dummyProfiles[0]);
@@ -146,6 +163,7 @@ const ProfileView = () => {
     return profiles.filter(profile => {
       const matchesGender = filters.gender === 'all' || profile.gender === filters.gender;
       const matchesCaste = filters.caste === 'all' || profile.caste === filters.caste;
+      const matchesSubCaste = filters.subCaste === 'all' || profile.subCaste === filters.subCaste;
       
       let matchesAge = true;
       if (filters.ageRange !== 'all') {
@@ -155,7 +173,7 @@ const ProfileView = () => {
 
       const matchesSearch = profile.name.toLowerCase().includes(filters.searchQuery.toLowerCase());
 
-      return matchesGender && matchesCaste && matchesAge && matchesSearch;
+      return matchesGender && matchesCaste && matchesSubCaste && matchesAge && matchesSearch;
     });
   };
 
