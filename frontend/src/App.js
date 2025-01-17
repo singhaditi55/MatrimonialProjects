@@ -88,9 +88,9 @@ const App = () => (
               </Typography>
             </motion.div>
 
-            <NavButton to="/" icon={<DashboardIcon />} label="Dashboard" />
-            <NavButton to="/profiles" icon={<PeopleIcon />} label="Profiles" />
-            <NavButton to="/call-management" icon={<CallIcon />} label="Calls" />
+            {/* <NavButton to="/" icon={<DashboardIcon />} label="Dashboard" /> */}
+            <NavButton to="/" icon={<PeopleIcon />} label="Profiles" />
+            {/* <NavButton to="/call-management" icon={<CallIcon />} label="Calls" /> */}
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -126,8 +126,8 @@ const App = () => (
       >
         <PageTransition>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/profiles" element={<ProfileView />} />
+            {/* <Route path="/" element={<Dashboard />} /> */}
+            <Route path="/" element={<ProfileView />} />
             <Route path="/call-management" element={<CallManagement />} />
             <Route path="/call-management/:profileId" element={<CallManagement />} />
           </Routes>
